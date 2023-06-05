@@ -41,5 +41,58 @@ namespace Текстовый_редактор
             }
             richTextBox1.Clear();
         }
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonCopy_Click(object sender, EventArgs e)
+        {
+            string copyText = string.Empty;
+
+            if (richTextBox1.SelectionLength == 0)
+                copyText = richTextBox1.Text.Replace("\n", Environment.NewLine);
+
+            else
+                copyText = richTextBox1.SelectedText.Replace("\n", Environment.NewLine);
+
+            try
+            {
+                Clipboard.SetDataObject(copyText, true, 3, 400);
+            }
+
+            catch (System.Runtime.InteropServices.ExternalException)
+            {
+                MessageBox.Show(this, "Не удалось очистить буфер обмена. Возможно буфер обмена используется другим процессом.",
+                    "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonPaste_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
+        }
+
+        private void buttonSelectAll_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectAll();
+        }
+
+        private void buttonColor_Click(object sender, EventArgs e)
+        {
+            richTextBox1.ForeColor = Color.Red;
+        }
+
+        private void buttonFont_Click(object sender, EventArgs e)
+        {
+            int newFontSize = 14;
+            if (newFontSize == 14)
+            {
+                newFontSize = 20; //размер
+                FontStyle style = (FontStyle.Bold | FontStyle.Italic | FontStyle.Underline); //жирный, курсив, подчеркнутый
+                richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, (float)newFontSize, style);
+            }
+        }
     }
 }
